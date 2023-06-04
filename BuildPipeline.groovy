@@ -3,7 +3,7 @@ pipeline{
     agent any 
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'source', description: 'Enter the source code branch')
-        string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Enter the pipeline branch')
+        string(name: 'BRANCH_PIPE', defaultValue: '', description: 'Enter the pipeline branch')
         string(name: 'SERVER_IP', defaultValue: '', description: 'Enter the server ip of Tomcat')
         }
     stages{

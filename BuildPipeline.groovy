@@ -4,13 +4,14 @@ pipeline{
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'source', description: 'Enter the source code branch')
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Enter the pipeline branch')
-        string(name: 'SERVER_IP', defaultValue: '', description: 'Enter the server ip')
+        string(name: 'SERVER_IP', defaultValue: '', description: 'Enter the server ip of Tomcat')
         }
     stages{
         stage("clone code"){
             steps{
                 println "here im clonning the code from git hub"
-                git branch: 'BRANCH_NAME', url: "https://github.com/pandu1031/boxfuse-sample-java-war-hello.git"
+                git branch: '${BRANCH_NAME}', 
+                url: "https://github.com/pandu1031/boxfuse-sample-java-war-hello.git"
             }
         }
         stage("Build"){

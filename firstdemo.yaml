@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: yes 
+  tasks:
+  - name: create folder
+    shell: mkdir /tmp/playbook
+  - name: install git
+    yum:
+       name: git
+       state: present
+  - name: install maven 
+    yum:
+       name: maven 
+       state: present
+  - name: install httpd
+    yum: 
+       name: httpd 
+       state: present
+  - name: restart httpd
+    service:
+       name: httpd
+       state: restarted
+

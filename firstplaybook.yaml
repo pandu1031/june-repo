@@ -1,0 +1,15 @@
+---
+- hosts: appservers
+  tasks:
+  - name: installing git
+    yum:
+       name: git 
+       state: present 
+  - name: installing maven
+    yum: 
+       name: maven
+       state: present
+  - name: copying pem file 
+    copy:
+        src: /home/ec2-user/mamu1031.pem
+        dest: /root/ansible1     

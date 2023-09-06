@@ -1,0 +1,16 @@
+---
+- name: two variables for the loop
+  become: yes
+  hosts:
+   - localhost
+  tasks:
+  - name: using multiple users
+    user:
+       name: '{{ item.name }}'
+       state: present
+       uid: '{{ item.uid }}'
+    loop:
+    - name: june
+      uid: 1995
+    - name: july
+      uid: 1997

@@ -13,3 +13,11 @@
     copy:
         src: /home/ec2-user/mamu1031.pem
         dest: /root/ansible1     
+  - name: installing httpd
+    yum:
+       name: httpd
+       state: present
+  - name: restart httpd
+    service: 
+          name: httpd 
+          state: restarted     

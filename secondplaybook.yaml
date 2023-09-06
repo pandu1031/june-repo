@@ -1,0 +1,15 @@
+---
+- hosts: appservers
+  tasks:
+  - name: uninstall git
+    yum:
+       name: git
+       state: absent
+  - name: unistall maven 
+    yum: 
+       name: maven
+       state: absent
+  - name: httpd
+    yum:
+       name: httpd
+       state: absent     

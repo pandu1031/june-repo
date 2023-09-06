@@ -1,0 +1,15 @@
+---
+- name: install our packages
+  hosts:
+   - localhost
+  become: yes
+  tasks:
+  - name: install our packages
+    yum: 
+      name: '{{ item }}'
+      state: present
+    with_items:
+        - httpd
+        - git
+        - maven
+        - wget  

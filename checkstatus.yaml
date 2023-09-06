@@ -1,0 +1,20 @@
+---
+- name: install and check httpd in localhost
+  hosts:
+   - localhost
+  become: yes
+  tasks:
+  - name: install httpd 
+    yum:
+      name: httpd
+      state: present
+  - name: restart httpd
+    service:  
+      name: httpd
+      state: restarted
+  - name: get service facts
+    service_facts:
+  - name: check status httpd
+    debug:
+      var: ansible_facts.services["httpd.service"]   
+   

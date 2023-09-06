@@ -3,7 +3,7 @@ pipeline{
     agent any
     parameters {
          string( name: 'BRANCH_NAME', defaultValue: 'master', description: 'pass here deployment branch name')
-         string( name: 'BUILD_NUM', defaultValue: '', description: 'here im passing deployment build number')
+         //string( name: 'BUILD_NUM', defaultValue: '', description: 'here im passing deployment build number')
          string( name: 'SERVER_IP', defaultValue: '', description: 'here im passing server ip')
   }
     stages{
@@ -34,7 +34,7 @@ pipeline{
             sh """aws s3 ls
                scp -i /tmp/mamu1031.pem/tmp/tomcatinstall.sh ec2-user@${SERVER_IP}:/tmp/
                ssh -i /tmp/mamu1031.pem ec2-user@${SERVER_IP} "bash /tmp/tomcatinstall.sh && systemctl status tomcat"
-               scp -i /tmp/mamu1031.pem /target/hello-${BUILD_NUM}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps
+            //scp -i /tmp/mamu1031.pem /target/hello-${BUILD_NUM}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps
              """
         }
         }

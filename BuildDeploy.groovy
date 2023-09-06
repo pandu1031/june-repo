@@ -1,42 +1,40 @@
 // Declarative pipeline
 pipeline{
-    agent any
+    agent any 
     parameters {
-         string( name: 'BRANCH_NAME', defaultValue: 'pipeline', description: 'pass here deployment branch name')
-         //string( name: 'BUILD_NUM', defaultValue: '', description: 'here im passing deployment build number')
-        // string( name: 'SERVER_IP', defaultValue: '', description: 'here im passing server ip')
-  }
+        string(name: 'BRANCH_NAME', defaultValue: 'source', description: 'Enter the source code branch')
+        string(name: 'BRANCH_PIPE', defaultValue: '', description: 'Enter the pipeline branch')
+        string(name: 'SERVER_IP', defaultValue: '', description: 'Enter the server ip of Tomcat')
+        }
     stages{
         stage("clone code"){
             steps{
-            println "here im cloning the code"
-            git branch: "$BRANCH",
-                url:"https://github.com/pandu1031/boxfuse-sample-java-war-hello.git"
+                println "here im clonning the code from git hub"
+                git branch: '${BRANCH_NAME}', 
+                url: "https://github.com/pandu1031/boxfuse-sample-java-war-hello.git"
             }
         }
-        
-         stage("build"){
+        stage("Build"){
             steps{
-            println "here im building code "
-            sh "mvn clean package"
+                println "here im building the code"
+                sh "mvn clean package"
+                sh "ls -l target"
+            }
+        }
+        stage("uploding artifacts"){
+            steps{
+                println "here im uploading artifacts to s3 bucket"
+                sh "aws s3 ls"
+                sh "aws s3 cp target/hello-${BUILD_NUMBER}.war s3://mamuu/June/${BRANCH_NAME}/${BUILD_NUMBER}"
+            }
+        }
+        stage("deploy"){
+            steps{
+                println "here im deploying the war file to tomcat server"
+                sh "scp -i /tmp/mamu1031.pem /tmp/tomcatinstall.sh ec2-user@${SERVER_IP}:/tmp/"
+                sh "ssh -i /tmp/mamu1031.pem ec2-user@${SERVER_IP} \"bash /tmp/tomcatinstall.sh systemctl status tomcat\""
+                // sh "scp -i /tmp/mamu1031.pem target/hello-${BUILD_NUMBER}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps/"
+            }
         }
     }
-        stage("upload artifacts"){
-           steps{
-           println "here im uploading artifacts to s3 bucket"
-           sh"aws s3 cp target/hello-${BUILD_NUM}.war s3://mamuuu/${BRANCH_NAME}/${BUILD_NUM}"
-    }
-    }
-
-    stage("Deploy"){
-        steps{
-            println "here im deploying from jenkins to tomcat location"
-            sh """aws s3 ls
-               scp -i /tmp/mamu1031.pem/tmp/tomcatinstall.sh ec2-user@${SERVER_IP}:/tmp/ """
-               //ssh -i /tmp/mamu1031.pem ec2-user@${SERVER_IP} "bash /tmp/tomcatinstall.sh && systemctl status tomcat" 
-            //scp -i /tmp/mamu1031.pem /target/hello-${BUILD_NUM}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps
-             
-        }
-        }
-    }
-    }
+}

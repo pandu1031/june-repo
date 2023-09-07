@@ -31,19 +31,19 @@ pipeline{
         stage("deploy"){
             steps{
                 println "here im deploying the war file to tomcat server"
-               // sh "scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem tomcatinstall.sh ec2-user@${SERVER_IP}:/tmp/"
-                //sh "ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@${SERVER_IP} \"bash tomcatinstall.sh systemctl status tomcat\""
-                //sh "scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem target/hello-${BUILD_NUMBER}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps/"
+                sh "scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem tomcatinstall.sh ec2-user@${SERVER_IP}:/tmp/"
+                sh "ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@${SERVER_IP} \"bash tomcatinstall.sh systemctl status tomcat\""
+                sh "scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem target/hello-${BUILD_NUMBER}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps/"
             
                  sh '''
-            aws s3 cp s3://mamuu/pandu/${BRANCH}/${BUILDNUM}/hello-${BUILDNUM}.war .
+            aws s3 cp s3://mamuuu/source/${BRANCH_NAME}/${BUILD_NUMBER}/hello-${BUILD_NUMBER}.war .
             ls -l 
             whoami
             IFS=',' read -ra storevalue <<< "${SERVERIP}"
             for ip in ${storevalue[@]}
             do
             echo "$ip"
-            scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem hello-${BUILDNUM}.war ec2-user@$ip:/var/lib/tomcat/webapps
+            scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem hello-${BUILD_NUMBER}.war ec2-user@$ip:/var/lib/tomcat/webapps
             ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@$ip "hostname"
             done
             '''

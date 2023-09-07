@@ -35,18 +35,18 @@ pipeline{
                 sh "ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@${SERVER_IP} \"bash tomcatinstall.sh systemctl status tomcat\""
                 sh "scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem target/hello-${BUILD_NUMBER}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps/"
             
-                 sh '''
-            aws s3 cp s3://mamuuu/source/${BRANCH_NAME}/${BUILD_NUMBER}/hello-${BUILD_NUMBER}.war .
-            ls -l 
-            whoami
-            IFS=',' read -ra storevalue <<< "${SERVERIP}"
-            for ip in ${storevalue[@]}
-            do
-            echo "$ip"
-            scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem hello-${BUILD_NUMBER}.war ec2-user@$ip:/var/lib/tomcat/webapps
-            ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@$ip "hostname"
-            done
-            '''
+                 //sh '''
+            //aws s3 cp s3://mamuuu/source/${BRANCH_NAME}/${BUILD_NUMBER}/hello-${BUILD_NUMBER}.war .
+           // ls -l 
+            //whoami
+            //IFS=',' read -ra storevalue <<< "${SERVERIP}"
+            //for ip in ${storevalue[@]}
+           // do
+            //echo "$ip"
+            //scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem hello-${BUILD_NUMBER}.war ec2-user@$ip:/var/lib/tomcat/webapps
+            //ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@$ip "hostname"
+           // done
+            //'''
             }
         }
     }

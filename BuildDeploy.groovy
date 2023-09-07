@@ -31,9 +31,9 @@ pipeline{
         stage("deploy"){
             steps{
                 println "here im deploying the war file to tomcat server"
-                sh "scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem tomcatinstall.sh ec2-user@${SERVER_IP}:/tmp/"
-                sh "ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@${SERVER_IP} \"bash tomcatinstall.sh systemctl status tomcat\""
-                sh "scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem target/hello-${BUILD_NUMBER}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps/"
+                sh """scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem tomcatinstall.sh ec2-user@${SERVER_IP}:/tmp/"
+                ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@${SERVER_IP} \"bash tomcatinstall.sh systemctl status tomcat\""
+                scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem target/hello-${BUILD_NUMBER}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps/" """
             
                  //sh '''
             //aws s3 cp s3://mamuuu/source/${BRANCH_NAME}/${BUILD_NUMBER}/hello-${BUILD_NUMBER}.war .

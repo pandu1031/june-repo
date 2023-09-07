@@ -33,7 +33,20 @@ pipeline{
                 println "here im deploying the war file to tomcat server"
                 sh "scp -i /tmp/mamu1031.pem /tmp/tomcatinstall.sh ec2-user@${SERVER_IP}:/tmp/"
                 sh "ssh -i /tmp/mamu1031.pem ec2-user@${SERVER_IP} \"bash /tmp/tomcatinstall.sh systemctl status tomcat\""
-                 sh "scp -i /tmp/mamu1031.pem target/hello-${BUILD_NUMBER}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps/"
+                 //sh "scp -i /tmp/mamu1031.pem target/hello-${BUILD_NUMBER}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps/"
+            
+                 sh '''
+            aws s3 cp s3://mamuu/pandu/${BRANCH}/${BUILDNUM}/hello-${BUILDNUM}.war .
+            ls -l 
+            whoami
+            IFS=',' read -ra storevalue <<< "${SERVERIP}"
+            for ip in ${storevalue[@]}
+            do
+            echo "$ip"
+            scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem hello-${BUILDNUM}.war ec2-user@$ip:/var/lib/tomcat/webapps
+            ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@$ip "hostname"
+            done
+            '''
             }
         }
     }

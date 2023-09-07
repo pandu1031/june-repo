@@ -37,7 +37,7 @@ pipeline{
                 //scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem target/hello-${BUILD_NUMBER}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps/ """
             
                  sh '''
-                 aws s3 cp s3://mamuuu/source/${BRANCH_NAME}/${BUILD_NUMBER}/hello-${BUILD_NUMBER}.war .
+                 aws s3 cp s3://mamuuu/${BRANCH_NAME}/${BUILD_NUMBER}/hello-${BUILD_NUMBER}.war .
                  ls -l 
             whoami
             IFS=',' read -ra storevalue <<< "${SERVERIP}"

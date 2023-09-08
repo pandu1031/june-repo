@@ -49,8 +49,8 @@ pipeline{
             do
             echo "$ip"
             aws s3 cp target/hello-${BUILD_NUMBER}.war s3://mamuuu/${BRANCH_NAME}/${BUILD_NUMBER}
-            scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem /hello-${BUILD_NUMBER}.war ec2-user@172.31.5.221:/var/lib/tomcat/webapps
-            scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem /hello-${BUILD_NUMBER}.war ec2-user@72.31.13.5:/var/lib/tomcat/webapps
+            scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem /target/hello-${BUILD_NUMBER}.war ec2-user@172.31.5.221:/var/lib/tomcat/webapps
+            scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem /target/hello-${BUILD_NUMBER}.war ec2-user@72.31.13.5:/var/lib/tomcat/webapps
              Sssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@$ip "hostname"
             done
             '''

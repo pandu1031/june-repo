@@ -48,7 +48,7 @@ pipeline{
             for ip in "${storevalue[@]}"
             do
             echo "$ip"
-            scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem /mamuuu/source/hello-${BUILD_NUMBER}.war ec2-user@$ip:/var/lib/tomcat/webapps
+            "scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem /mamuuu/source/${BUILD_NUMBER}/hello-${BUILD_NUMBER}.war ec2-user@$ip:/var/lib/tomcat/webapps"
             ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@$ip "hostname"
             done
             '''

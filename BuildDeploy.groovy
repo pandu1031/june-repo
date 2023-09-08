@@ -45,7 +45,7 @@ pipeline{
                  ls -l 
             whoami
             IFS=',' read -ra storevalue <<< "${SERVERIP}"
-            for ip in ${storevalue[@]}
+            for ip in \${storevalue[@]}\
             do
             echo "$ip"
             scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem hello-${BUILD_NUMBER}.war ec2-user@$ip:/var/lib/tomcat/webapps

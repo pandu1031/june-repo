@@ -48,6 +48,9 @@ pipeline{
             for ip in "${storevalue[@]}"
             do
             echo "$ip"
+            aws s3 cp target/hello-${BUILD_NUMBER}.war s3://mamuuu/${BRANCH_NAME}/${BUILD_NUMBER}
+            "scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem /mamuuu/source/${BUILD_NUMBER}/hello-${BUILD_NUMBER}.war ec2-user@$ip:/var/lib/tomcat/webapps"
+             Sssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@$ip "hostname"
             done
             '''
             }

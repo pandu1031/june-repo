@@ -44,7 +44,7 @@ pipeline{
                  aws s3 cp target/hello-${BUILD_NUMBER}.war s3://mamuuu/${BRANCH_NAME}/${BUILD_NUMBER}
                  ls -l 
             whoami
-            IFS=',' read -ra storevalue <<< "${SERVERIP}"
+            IFS=',' read -ra storevalue <<< "${SERVER_IP}"
             for ip in \${storevalue[@]}\
             do
             echo "$ip"

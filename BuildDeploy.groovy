@@ -35,7 +35,8 @@ pipeline{
                 scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem /tmp/tomcatinstall.sh ec2-user@172.31.5.221:/tmp/
                 scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem /tmp/tomcatinstall.sh ec2-user@172.31.13.5:/tmp/
 
-                 ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@${SERVER_IP} \"bash /tmp/tomcatinstall.sh && systemctl status tomcat\"
+                 ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@172.31.5.221 \"bash /tmp/tomcatinstall.sh && systemctl status tomcat\"
+                 ssh -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem ec2-user@172.31.13.5 \"bash /tmp/tomcatinstall.sh && systemctl status tomcat\"
                 scp -o StrictHostKeyChecking=no -i /tmp/mamu1031.pem target/hello-${BUILD_NUMBER}.war ec2-user@${SERVER_IP}:/var/lib/tomcat/webapps/ """
             
                  sh '''
